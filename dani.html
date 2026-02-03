@@ -3,150 +3,162 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Queen Dani | E-Model</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;600&display=swap" rel="stylesheet">
+    <title>Queen Dani | E-Learning Intelligence</title>
     <style>
         :root { --queen-gold: #ffcf33; --accent: #ff007a; --bg: #030303; --glass: rgba(255, 255, 255, 0.05); }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: var(--bg); color: #fff; font-family: 'Inter', sans-serif; min-height: 100vh; display: flex; flex-direction: column; }
 
-        header { padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,215,51,0.1); }
-        .logo-circle { width: 35px; height: 35px; border: 1px solid var(--queen-gold); border-radius: 50%; background: url('https://files.catbox.moe/61k8fy.jpg') center/cover; }
-        
-        .container { max-width: 800px; margin: 40px auto; padding: 0 20px; flex: 1; }
-        .hero-h1 { font-size: 3rem; font-weight: 200; text-align: center; margin-bottom: 30px; }
+        header { padding: 25px 50px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,215,51,0.1); background: rgba(0,0,0,0.5); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100; }
+        .branding { display: flex; align-items: center; gap: 12px; }
+        .logo-circle { width: 38px; height: 38px; border: 1.5px solid var(--queen-gold); border-radius: 50%; background: url('https://files.catbox.moe/61k8fy.jpg') center/cover; box-shadow: 0 0 15px rgba(255,207,51,0.3); }
+        .model-name { color: var(--queen-gold); letter-spacing: 2px; font-weight: 600; font-size: 0.75rem; }
 
-        .search-wrapper { position: relative; width: 100%; }
+        .container { max-width: 850px; margin: 40px auto; padding: 0 25px; flex: 1; width: 100%; }
+        .hero-h1 { font-size: 3.5rem; font-weight: 200; text-align: center; margin-bottom: 10px; letter-spacing: -1px; }
+        .sub-tag { text-align: center; color: #666; margin-bottom: 40px; font-size: 0.9rem; letter-spacing: 1px; }
+
+        .search-wrapper { position: relative; width: 100%; max-width: 700px; margin: 0 auto; }
         input { 
             width: 100%; background: var(--glass); border: 1px solid rgba(255,215,51,0.2); 
-            padding: 20px 25px; border-radius: 50px; color: #fff; font-size: 1.1rem; outline: none; 
+            padding: 22px 30px; border-radius: 50px; color: #fff; font-size: 1.1rem; outline: none; 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
+        input:focus { border-color: var(--queen-gold); background: rgba(255,255,255,0.08); box-shadow: 0 0 30px rgba(255,207,51,0.1); }
+        
         .query-btn { 
             position: absolute; right: 8px; top: 8px; bottom: 8px; 
-            background: var(--queen-gold); border: none; padding: 0 25px; 
-            border-radius: 40px; font-weight: 600; cursor: pointer; 
+            background: var(--queen-gold); border: none; padding: 0 30px; 
+            border-radius: 40px; font-weight: 700; cursor: pointer; color: #000;
+            transition: 0.2s;
         }
+        .query-btn:hover { background: #fff; transform: scale(1.02); }
 
-        #results { margin-top: 30px; }
+        #results { margin-top: 50px; }
         .card { 
-            background: var(--glass); padding: 25px; border-radius: 15px; 
-            border-left: 3px solid var(--queen-gold); margin-bottom: 20px;
-            animation: fadeIn 0.4s ease forwards;
+            background: var(--glass); padding: 35px; border-radius: 20px; 
+            border-left: 4px solid var(--queen-gold); margin-bottom: 25px;
+            animation: slideUp 0.5s ease forwards;
         }
-        .tag { color: var(--queen-gold); font-size: 0.7rem; text-transform: uppercase; margin-bottom: 8px; display: block; }
-        .title { font-size: 1.6rem; margin-bottom: 8px; }
-        .desc { color: #ccc; line-height: 1.6; }
+        .tag { color: var(--queen-gold); font-size: 0.7rem; font-weight: 600; text-transform: uppercase; margin-bottom: 12px; display: block; letter-spacing: 2px; }
+        .title { font-size: 2rem; margin-bottom: 12px; font-weight: 400; color: #fff; }
+        .desc { color: #ccc; line-height: 1.8; font-size: 1.1rem; }
 
-        .wave { display: none; text-align: center; margin-top: 15px; color: var(--queen-gold); font-size: 0.8rem; letter-spacing: 2px; }
+        .wave-ui { display: none; text-align: center; margin: 20px 0; color: var(--queen-gold); font-size: 0.7rem; font-family: monospace; }
 
-        /* DEBUG CONSOLE */
-        #status-log { padding: 10px; font-size: 0.6rem; color: #444; text-align: center; font-family: monospace; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-<body onclick="unlockAudio()">
+<body onclick="wakeUp()">
 
     <header>
-        <div style="display:flex; align-items:center; gap:10px;">
+        <div class="branding">
             <div class="logo-circle"></div>
-            <span style="color:var(--queen-gold); font-size:0.7rem; font-weight:600;">QUEEN DANI E-MODEL</span>
+            <div class="model-name">QUEEN DANI // E-MODEL</div>
         </div>
-        <a href="index.html" style="color:#555; text-decoration:none; font-size:0.7rem;">EXIT</a>
+        <a href="primis.html" style="color:#666; text-decoration:none; font-size:0.7rem; border:1px solid #333; padding:5px 12px; border-radius:4px;">EXIT SYSTEM</a>
     </header>
 
     <div class="container">
-        <h1 class="hero-h1">Knowledge Hub.</h1>
+        <h1 class="hero-h1">Ask the Queen.</h1>
+        <p class="sub-tag">EMBODIED EDUCATION & DICTIONARY AI</p>
 
         <div class="search-wrapper">
-            <input type="text" id="query" placeholder="Type a word or subject..." onkeypress="if(event.key==='Enter') queryModel()">
+            <input type="text" id="query" placeholder="Search a word, novel, or subject..." onkeypress="if(event.key==='Enter') queryModel()">
             <button class="query-btn" onclick="queryModel()">QUERY</button>
         </div>
 
-        <div id="wave" class="wave">QUEEN DANI IS SPEAKING...</div>
+        <div id="wave" class="wave-ui">── QUEEN DANI IS SPEAKING ──</div>
         <div id="results"></div>
     </div>
 
-    <div id="status-log">System Ready | Awaiting Input</div>
-
     <script>
-        const log = document.getElementById('status-log');
-        let audioUnlocked = false;
+        let synth = window.speechSynthesis;
+        let isAwake = false;
 
-        function unlockAudio() {
-            if (audioUnlocked) return;
-            window.speechSynthesis.getVoices();
-            audioUnlocked = true;
-            log.innerText = "System Ready | Audio Unlocked";
+        // Wake up the voice system on first click (Required for Hosted Browsers)
+        function wakeUp() {
+            if (isAwake) return;
+            synth.getVoices();
+            isAwake = true;
+            console.log("Dani Engine: Online");
         }
 
         function speak(text) {
-            if (!window.speechSynthesis) return;
-            window.speechSynthesis.cancel();
+            if (!synth) return;
+            synth.cancel();
             const msg = new SpeechSynthesisUtterance(text);
+            const voices = synth.getVoices();
             
-            const voices = window.speechSynthesis.getVoices();
+            // Priority: Female High-Quality Voice
             msg.voice = voices.find(v => v.name.includes('Female') || v.name.includes('Google UK English Female') || v.name.includes('Samantha')) || voices[0];
             msg.pitch = 1.1;
+            msg.rate = 1.0;
             
-            const wave = document.getElementById('wave');
-            wave.style.display = 'block';
-            msg.onend = () => wave.style.display = 'none';
-            window.speechSynthesis.speak(msg);
+            document.getElementById('wave').style.display = 'block';
+            msg.onend = () => document.getElementById('wave').style.display = 'none';
+            synth.speak(msg);
         }
 
         async function queryModel() {
-            const query = document.getElementById('query').value.trim();
+            const queryField = document.getElementById('query');
+            const query = queryField.value.trim();
             const resArea = document.getElementById('results');
             if (!query) return;
 
-            resArea.innerHTML = "";
-            log.innerText = "Querying: " + query + "...";
-            speak("Searching my archives.");
+            resArea.innerHTML = `<div style="text-align:center; color:var(--queen-gold); font-family:monospace; padding:50px;">FETCHING INTELLIGENCE...</div>`;
+            speak(`Searching the archives for ${query}. One moment.`);
 
             try {
-                // Dictionary
-                const dRes = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${query}`);
-                const dData = dRes.ok ? await dRes.json() : null;
+                // Fetch Dictionary and Wikipedia simultaneously for speed
+                const [dictRes, wikiRes] = await Promise.all([
+                    fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${query}`).catch(e => null),
+                    fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(query)}`).catch(e => null)
+                ]);
 
-                // Wikipedia
-                const wRes = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(query)}`);
-                const wData = wRes.ok ? await wRes.json() : null;
+                let hasContent = false;
+                resArea.innerHTML = "";
 
-                let hasResult = false;
-
-                if (dData && dData[0]) {
-                    hasResult = true;
-                    const def = dData[0].meanings[0].definitions[0].definition;
-                    resArea.innerHTML += `
-                        <div class="card">
-                            <span class="tag">Dictionary</span>
-                            <div class="title">${query}</div>
-                            <div class="desc">${def}</div>
-                        </div>`;
+                // 1. Process Dictionary Data
+                if (dictRes && dictRes.ok) {
+                    const dictData = await dictRes.json();
+                    if (dictData[0]) {
+                        hasContent = true;
+                        const meaning = dictData[0].meanings[0].definitions[0].definition;
+                        resArea.innerHTML += `
+                            <div class="card">
+                                <span class="tag">Dictionary Entrance</span>
+                                <div class="title">${query.toLowerCase()}</div>
+                                <div class="desc">${meaning}</div>
+                            </div>`;
+                    }
                 }
 
-                if (wData && wData.extract) {
-                    hasResult = true;
-                    resArea.innerHTML += `
-                        <div class="card" style="border-left-color:var(--accent)">
-                            <span class="tag">Wikipedia</span>
-                            <div class="title">${wData.title}</div>
-                            <div class="desc">${wData.extract}</div>
-                        </div>`;
-                    speak(wData.extract.substring(0, 150));
+                // 2. Process Wikipedia Data
+                if (wikiRes && wikiRes.ok) {
+                    const wikiData = await wikiRes.json();
+                    if (wikiData.extract && wikiData.type !== "no-special") {
+                        hasContent = true;
+                        resArea.innerHTML += `
+                            <div class="card" style="border-left-color: var(--accent);">
+                                <span class="tag">Knowledge Subject</span>
+                                <div class="title">${wikiData.title}</div>
+                                <div class="desc">${wikiData.extract}</div>
+                            </div>`;
+                        // Queen Dani speaks the summary
+                        speak(wikiData.extract.substring(0, 150) + "...");
+                    }
                 }
 
-                if (!hasResult) {
-                    resArea.innerHTML = "<div class='card'>No data found for this entry.</div>";
-                    speak("I could not find that information.");
+                if (!hasContent) {
+                    resArea.innerHTML = `<div class="card">No results found in the Queen's archives for "${query}".</div>`;
+                    speak("I'm sorry, that concept is not currently indexed.");
                 }
-
-                log.innerText = "Update: Success";
 
             } catch (err) {
-                log.innerText = "Error: " + err.message;
-                resArea.innerHTML = "<div class='card'>Connection Error. Please check your internet.</div>";
+                console.error("Network Error:", err);
+                resArea.innerHTML = `<div class="card">Connection to knowledge hub failed. Ensure your host permits external API requests.</div>`;
+                speak("Connection interrupted. Please verify the network link.");
             }
         }
     </script>
