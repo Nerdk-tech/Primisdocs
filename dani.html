@@ -3,237 +3,223 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Queen Dani | E-Model V5</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>Queen Dani | Sovereign V7 Voice</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;400;600;800&display=swap" rel="stylesheet">
     <style>
-        :root { --queen-gold: #ffcf33; --accent: #ff007a; --bg: #030303; --glass: rgba(255, 255, 255, 0.05); }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        :root { 
+            --gold: #ffcf33; --accent: #ff007a; --bg: #050505; 
+            --glass: rgba(255, 255, 255, 0.03); --glass-border: rgba(255, 255, 255, 0.1);
+            --font-main: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body.sepia-theme { --bg: #f4ecd8; color: #433422; --glass: rgba(0,0,0,0.05); }
+        body.sepia-theme .card, body.sepia-theme .journal-box { background: #fff; color: #433422; border-color: #ccc; }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font-main); transition: background 0.3s, color 0.3s; }
         body { background: var(--bg); color: #fff; min-height: 100vh; overflow-x: hidden; }
 
-        /* --- AUTHENTICATION GATE --- */
-        #auth-gate { position: fixed; inset: 0; background: #000; z-index: 3000; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(20px); }
-        .auth-card { background: var(--glass); padding: 40px; border-radius: 24px; border: 1px solid var(--queen-gold); width: 90%; max-width: 420px; text-align: center; box-shadow: 0 0 50px rgba(255,207,51,0.1); }
-        .auth-card input { width: 100%; padding: 14px; margin: 8px 0; background: rgba(0,0,0,0.6); border: 1px solid #333; color: #fff; border-radius: 12px; outline: none; }
-        .bio-btn { background: none; border: 2px solid var(--queen-gold); color: var(--queen-gold); padding: 14px; border-radius: 12px; cursor: pointer; width: 100%; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s; }
-        .bio-btn:hover { background: var(--queen-gold); color: #000; }
+        /* --- AUTH --- */
+        #auth-gate { position: fixed; inset: 0; background: var(--bg); z-index: 5000; display: flex; align-items: center; justify-content: center; }
+        .auth-card { width: 90%; max-width: 400px; padding: 40px; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 30px; text-align: center; }
+        .auth-card input { width: 100%; padding: 15px; margin-bottom: 12px; border-radius: 12px; border: 1px solid #333; background: #111; color: #fff; outline: none; }
 
-        /* --- SETTINGS SIDEBAR --- */
-        #settings-sidebar { position: fixed; right: -350px; top: 0; bottom: 0; width: 320px; background: rgba(10,10,10,0.98); border-left: 1px solid var(--queen-gold); z-index: 2500; transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1); padding: 40px 25px; }
-        #settings-sidebar.open { right: 0; }
-        .setting-header { border-bottom: 1px solid #222; margin-bottom: 20px; padding-bottom: 10px; font-weight: 600; color: var(--queen-gold); }
-        .setting-group { margin-bottom: 20px; }
-        .setting-group label { display: block; font-size: 0.7rem; color: #666; text-transform: uppercase; margin-bottom: 5px; }
-        .setting-input { width: 100%; background: #111; border: 1px solid #333; color: #fff; padding: 10px; border-radius: 8px; margin-bottom: 10px; }
+        /* --- NAV --- */
+        nav { padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; background: rgba(5,5,5,0.8); backdrop-filter: blur(10px); }
+        .logo-group { display: flex; align-items: center; gap: 15px; }
+        .avatar-frame { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--gold); overflow: hidden; background: #222; }
+        #nav-avatar { width: 100%; height: 100%; object-fit: cover; }
+        .nav-icons { display: flex; gap: 20px; font-size: 1.4rem; cursor: pointer; color: var(--gold); }
 
-        /* --- UI COMPONENTS --- */
-        header { padding: 20px 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,215,51,0.1); position: sticky; top:0; background: var(--bg); z-index: 100; }
-        .gear-btn { font-size: 1.5rem; cursor: pointer; color: var(--queen-gold); transition: 0.4s; }
-        .gear-btn:hover { transform: rotate(90deg); }
+        /* --- SETTINGS --- */
+        #settings-drawer { position: fixed; right: -400px; top: 0; bottom: 0; width: 350px; background: #0a0a0a; z-index: 2000; padding: 40px 30px; border-left: 1px solid var(--glass-border); transition: 0.5s cubic-bezier(0.19, 1, 0.22, 1); overflow-y: auto; }
+        #settings-drawer.active { right: 0; }
+        .setting-row { margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid #111; }
+        .setting-row label { display: block; font-size: 0.7rem; color: #666; text-transform: uppercase; margin-bottom: 10px; letter-spacing: 1px; }
 
-        .container { max-width: 800px; margin: 30px auto; padding: 0 20px; }
-        .img-preview { width: 100%; height: 280px; border-radius: 20px; overflow: hidden; margin-bottom: 25px; border: 1px solid #222; display: none; }
-        .img-preview img { width: 100%; height: 100%; object-fit: cover; }
+        /* --- UI --- */
+        .container { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
+        .hero { text-align: center; margin-bottom: 40px; }
+        .search-area { position: relative; margin-bottom: 40px; }
+        input#query { width: 100%; padding: 25px 35px; border-radius: 100px; border: 1px solid var(--glass-border); background: var(--glass); color: #fff; font-size: 1.1rem; outline: none; }
+        .search-btn { position: absolute; right: 10px; top: 10px; bottom: 10px; padding: 0 25px; border-radius: 40px; background: var(--gold); border: none; cursor: pointer; font-weight: 800; }
 
-        .search-box { position: relative; }
-        #query { width: 100%; padding: 22px 30px; background: var(--glass); border: 1px solid rgba(255,215,51,0.2); border-radius: 50px; color: #fff; outline: none; font-size: 1.1rem; }
-        .search-btn { position: absolute; right: 10px; top: 10px; bottom: 10px; background: var(--queen-gold); border: none; padding: 0 25px; border-radius: 40px; font-weight: 700; cursor: pointer; }
+        .card { background: var(--glass); padding: 35px; border-radius: 25px; border: 1px solid var(--glass-border); margin-bottom: 20px; position: relative; }
+        .tag { color: var(--gold); font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; display: block; }
+        .speak-trigger { position: absolute; top: 30px; right: 30px; font-size: 1.2rem; cursor: pointer; opacity: 0.5; transition: 0.3s; }
+        .speak-trigger:hover { opacity: 1; transform: scale(1.1); }
+        .phonetic { font-family: monospace; color: #666; font-size: 1.1rem; margin-bottom: 10px; display: block; }
 
-        .card { background: var(--glass); padding: 30px; border-radius: 20px; border-left: 4px solid var(--queen-gold); margin-top: 25px; animation: slideIn 0.5s ease forwards; }
-        .lex-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
-        .lex-box { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 12px; }
-        .lex-tag { color: var(--queen-gold); font-size: 0.65rem; text-transform: uppercase; display: block; margin-bottom: 5px; }
-
-        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .journal-box { width: 100%; min-height: 180px; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 20px; padding: 20px; color: #fff; outline: none; margin-top: 10px; }
+        .history-pill { display: inline-block; padding: 8px 18px; background: var(--glass); border-radius: 50px; font-size: 0.8rem; margin: 5px; cursor: pointer; border: 1px solid var(--glass-border); color: #888; }
     </style>
 </head>
-<body onclick="wakeAudio()">
+<body onclick="initVoice()">
 
     <div id="auth-gate">
         <div class="auth-card">
-            <h1 style="color:var(--queen-gold); font-weight:300; margin-bottom:30px;">QUEEN DANI V.5</h1>
-            <button class="bio-btn" onclick="runBiometric()">🧬 SCAN BIOMETRIC</button>
-            <div style="margin: 15px 0; color: #333; font-size: 0.7rem;">OR LOGIN / SIGNUP</div>
-            <input type="text" id="reg-name" placeholder="Full Name">
+            <h2 style="margin-bottom: 25px;">Sovereign V7</h2>
             <input type="text" id="reg-user" placeholder="Username">
-            <input type="email" id="reg-email" placeholder="Email Address">
             <input type="password" id="reg-pass" placeholder="Password">
-            <button onclick="register()" class="search-btn" style="position:static; width:100%; margin-top:10px; padding:15px;">INITIALIZE SESSION</button>
-            <p onclick="guestEntry()" style="margin-top:20px; color:#555; cursor:pointer; font-size:0.8rem;">ACCESS AS GUEST 📳</p>
+            <button onclick="handleLogin()" style="width:100%; padding:15px; border-radius:12px; border:none; background:var(--gold); font-weight:800; cursor:pointer;">SIGN IN</button>
         </div>
     </div>
 
-    <div id="settings-sidebar">
-        <div class="setting-header">CONTROL PANEL</div>
-        <div class="setting-group">
-            <label>Profile Name</label>
-            <input type="text" id="edit-name" class="setting-input" onchange="syncSettings()">
-            <label>Username</label>
-            <input type="text" id="edit-user" class="setting-input" onchange="syncSettings()">
+    <div id="settings-drawer">
+        <h2 style="margin-bottom: 30px;">Configuration</h2>
+        
+        <div class="setting-row">
+            <label>Profile Avatar</label>
+            <input type="file" id="avatar-input" accept="image/*" onchange="uploadAvatar(event)">
         </div>
-        <div class="setting-group">
-            <label>Audio Mode</label>
-            <div style="display:flex; align-items:center; gap:10px; font-size:0.8rem;">
-                <input type="checkbox" id="tts-toggle" checked onchange="syncSettings()"> Voice Synthesis Active
+
+        <div class="setting-row">
+            <label>Voice Synthesis (TTS)</label>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-size:0.9rem;">Audio Feedback</span>
+                <input type="checkbox" id="tts-toggle" checked onchange="save()">
             </div>
         </div>
-        <button onclick="logout()" style="width:100%; padding:12px; background:#441111; color:#ff4444; border:1px solid #ff4444; border-radius:8px; cursor:pointer; margin-top:40px;">LOGOUT</button>
-        <button onclick="toggleSettings()" style="width:100%; background:transparent; border:1px solid #333; color:#666; padding:10px; border-radius:8px; margin-top:10px;">CLOSE</button>
+
+        <div class="setting-row">
+            <label>Interface Theme</label>
+            <button onclick="setTheme('dark')" style="padding:8px 15px; border-radius:8px; border:1px solid #333; background:none; color:#fff; cursor:pointer;">Dark</button>
+            <button onclick="setTheme('sepia')" style="padding:8px 15px; border-radius:8px; border:1px solid #333; background:none; color:#fff; cursor:pointer;">Sepia</button>
+        </div>
+
+        <div class="setting-row">
+            <label>Search History</label>
+            <div id="full-history" style="font-size: 0.75rem; color: #444; max-height: 150px; overflow-y: auto;"></div>
+            <button onclick="clearHistory()" style="color:var(--accent); background:none; border:none; font-size:0.7rem; margin-top:10px; cursor:pointer;">Clear Archive</button>
+        </div>
+
+        <button onclick="toggleSettings()" style="width:100%; padding:15px; background:var(--gold); color:#000; border:none; border-radius:12px; font-weight:800; cursor:pointer;">SAVE & CLOSE</button>
     </div>
 
-    <header>
-        <div style="display:flex; align-items:center; gap:12px;">
-            <div style="width:38px; height:38px; border-radius:50%; background:url('https://files.catbox.moe/61k8fy.jpg') center/cover; border:1.5px solid var(--queen-gold);"></div>
+    <nav>
+        <div class="logo-group">
+            <div class="avatar-frame"><img id="nav-avatar" src="https://files.catbox.moe/61k8fy.jpg"></div>
             <div>
-                <div id="user-name" style="font-size:0.8rem; font-weight:600; color:var(--queen-gold);">DANI ENGINE</div>
-                <div id="user-status" style="font-size:0.5rem; color:#666; letter-spacing:1px;">ONLINE</div>
+                <p id="user-display" style="font-size:0.8rem; font-weight:800; color:var(--gold);">DANI HUB</p>
+                <p style="font-size:0.5rem; letter-spacing:1px; color:#666;">RESEARCHER</p>
             </div>
         </div>
-        <div class="gear-btn" onclick="toggleSettings()">⚙️</div>
-    </header>
+        <div class="nav-icons" onclick="toggleSettings()">⚙️</div>
+    </nav>
 
     <div class="container">
-        <div id="visual-frame" class="img-preview"><img id="ref-image" src=""></div>
-        
-        <div class="search-box">
-            <input type="text" id="query" placeholder="Enter word or encyclopedia topic..." onkeypress="if(event.key==='Enter') queryArchives()">
-            <button class="search-btn" onclick="queryArchives()">SEARCH</button>
+        <div class="hero"><h1>Sovereign Intelligence.</h1></div>
+
+        <div class="search-area">
+            <input type="text" id="query" placeholder="Search a word or person..." onkeypress="if(event.key==='Enter') runQuery()">
+            <button class="search-btn" onclick="runQuery()">GO</button>
         </div>
 
+        <div id="quick-history" style="text-align:center; margin-bottom:30px;"></div>
         <div id="output"></div>
+
+        <div style="margin-top: 50px;">
+            <span class="tag">Personal Journal</span>
+            <textarea id="journal-input" class="journal-box" placeholder="Write your findings..." oninput="saveJournal()"></textarea>
+        </div>
     </div>
 
     <script>
-        let currentUser = { name: "Guest", user: "guest01", tts: true };
+        let db = { user: "Guest", history: [], journal: "", avatar: null, theme: 'dark', tts: true };
 
-        function wakeAudio() { window.speechSynthesis.getVoices(); }
+        function initVoice() { window.speechSynthesis.getVoices(); }
 
-        // --- AUTH LOGIC ---
-        function runBiometric() {
-            const btn = document.querySelector('.bio-btn');
-            btn.innerHTML = "🧬 SCANNING FACE...";
-            setTimeout(() => {
-                btn.innerHTML = "✅ IDENTITY VERIFIED";
-                setTimeout(() => guestEntry(), 600);
-            }, 1800);
-        }
-
-        function register() {
-            const name = document.getElementById('reg-name').value;
-            const user = document.getElementById('reg-user').value;
-            if(!name || !user) return alert("Please fill fields.");
-            currentUser = { name, user, tts: true };
-            saveSession();
-            launch();
-        }
-
-        function guestEntry() {
-            currentUser = { name: "Guest", user: "guest_user", tts: true };
+        function handleLogin() {
+            db.user = document.getElementById('reg-user').value || "Researcher";
+            document.getElementById('auth-gate').style.display = 'none';
             launch();
         }
 
         function launch() {
-            document.getElementById('auth-gate').style.display = 'none';
-            document.getElementById('user-name').innerText = currentUser.name.toUpperCase();
-            document.getElementById('edit-name').value = currentUser.name;
-            document.getElementById('edit-user').value = currentUser.user;
-            document.getElementById('tts-toggle').checked = currentUser.tts;
-            speak("System initialized. Welcome, " + currentUser.name);
+            document.getElementById('user-display').innerText = db.user.toUpperCase();
+            document.getElementById('journal-input').value = db.journal;
+            document.getElementById('tts-toggle').checked = db.tts;
+            if(db.avatar) document.getElementById('nav-avatar').src = db.avatar;
+            renderHistory();
         }
 
-        // --- SETTINGS ---
-        function toggleSettings() { document.getElementById('settings-sidebar').classList.toggle('open'); }
-        function syncSettings() {
-            currentUser.name = document.getElementById('edit-name').value;
-            currentUser.user = document.getElementById('edit-user').value;
-            currentUser.tts = document.getElementById('tts-toggle').checked;
-            document.getElementById('user-name').innerText = currentUser.name.toUpperCase();
-            saveSession();
-        }
-        function saveSession() { localStorage.setItem('dani_v5_session', JSON.stringify(currentUser)); }
-        function logout() { localStorage.removeItem('dani_v5_session'); location.reload(); }
+        function toggleSettings() { document.getElementById('settings-drawer').classList.toggle('active'); }
 
-        // --- CORE KNOWLEDGE ENGINE ---
-        async function queryArchives() {
-            const q = document.getElementById('query').value.trim();
-            const out = document.getElementById('output');
-            const imgFrame = document.getElementById('visual-frame');
+        function uploadAvatar(e) {
+            const reader = new FileReader();
+            reader.onload = () => { db.avatar = reader.result; document.getElementById('nav-avatar').src = reader.result; save(); };
+            reader.readAsDataURL(e.target.files[0]);
+        }
+
+        async function runQuery(term) {
+            const q = term || document.getElementById('query').value.trim();
             if(!q) return;
-
-            out.innerHTML = "<div class='card'>Consulting Cloud Archives...</div>";
+            const out = document.getElementById('output');
+            out.innerHTML = "<p style='text-align:center;'>Accessing Archives...</p>";
+            
+            if(!db.history.includes(q)) db.history.unshift(q);
+            renderHistory();
+            save();
 
             try {
-                // Simultaneous Fetch
-                const [dictRes, wikiRes] = await Promise.all([
+                const [dict, wiki] = await Promise.all([
                     fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${q}`).catch(() => null),
                     fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(q)}`).catch(() => null)
                 ]);
 
                 out.innerHTML = "";
-                let hasData = false;
-
-                // Dictionary Processing
-                if(dictRes && dictRes.ok) {
-                    hasData = true;
-                    const d = await dictRes.json();
-                    const entry = d[0].meanings[0];
-                    const def = entry.definitions[0].definition;
-                    const ex = entry.definitions[0].example || "No usage example recorded.";
-                    const syns = entry.synonyms?.slice(0, 3).join(", ") || "None";
-
+                if(dict && dict.ok) {
+                    const data = await dict.json();
+                    const e = data[0];
+                    const def = e.meanings[0].definitions[0].definition;
                     out.innerHTML += `
                         <div class="card">
-                            <span class="lex-tag">Lexical Meaning</span>
-                            <h2 style="margin-bottom:10px;">${q.toUpperCase()}</h2>
-                            <p style="color:#eee; line-height:1.6;">${def}</p>
-                            <div class="lex-grid">
-                                <div class="lex-box"><span class="lex-tag">Synonyms</span>${syns}</div>
-                                <div class="lex-box"><span class="lex-tag">Example</span>"${ex}"</div>
-                            </div>
+                            <span class="tag">Lexical Intelligence</span>
+                            <span class="speak-trigger" onclick="speak('${q}. ${def}')">🔊</span>
+                            <span class="phonetic">${e.phonetic || ''}</span>
+                            <h2 style="margin-bottom:15px;">${q}</h2>
+                            <p>${def}</p>
                         </div>`;
+                    if(db.tts) speak(def);
                 }
-
-                // Wikipedia Processing
-                if(wikiRes && wikiRes.ok) {
-                    hasData = true;
-                    const w = await wikiRes.json();
-                    if(w.originalimage) {
-                        document.getElementById('ref-image').src = w.originalimage.source;
-                        imgFrame.style.display = 'block';
-                    } else { imgFrame.style.display = 'none'; }
-
+                if(wiki && wiki.ok) {
+                    const w = await wiki.json();
                     out.innerHTML += `
-                        <div class="card" style="border-left-color:var(--accent);">
-                            <span class="lex-tag">Encyclopedia Reference</span>
-                            <h2 style="margin-bottom:10px;">${w.title}</h2>
-                            <p style="color:#ccc; font-size:0.95rem;">${w.extract}</p>
+                        <div class="card" style="border-top:3px solid var(--accent)">
+                            <span class="tag">Biography / Person</span>
+                            <span class="speak-trigger" onclick="speak('${w.extract}')">🔊</span>
+                            <h2>${w.title}</h2>
+                            <p style="color:#888; font-size:0.9rem; line-height:1.6;">${w.extract}</p>
+                            ${w.originalimage ? `<img src="${w.originalimage.source}" style="width:100%; border-radius:15px; margin-top:15px;">` : ''}
                         </div>`;
-                    
-                    if(currentUser.tts) speak(w.extract.substring(0, 180));
                 }
-
-                if(!hasData) {
-                    out.innerHTML = `<div class="card">The Queen finds no record for "${q}".</div>`;
-                    speak("No records found.");
-                }
-
-            } catch (err) {
-                out.innerHTML = "<div class='card'>Archive Link Failure. Check CORS/Network settings.</div>";
-            }
+            } catch(e) { out.innerHTML = "Error connecting to archives."; }
         }
 
         function speak(text) {
-            if(!currentUser.tts) return;
+            db.tts = document.getElementById('tts-toggle').checked;
+            if(!db.tts) return;
             window.speechSynthesis.cancel();
             const msg = new SpeechSynthesisUtterance(text);
-            const voices = window.speechSynthesis.getVoices();
-            msg.voice = voices.find(v => v.name.includes('Female')) || voices[0];
-            msg.pitch = 1.1;
+            msg.rate = 0.95;
             window.speechSynthesis.speak(msg);
         }
 
+        function renderHistory() {
+            document.getElementById('quick-history').innerHTML = db.history.slice(0, 5).map(h => `<span class="history-pill" onclick="runQuery('${h}')">${h}</span>`).join('');
+            document.getElementById('full-history').innerHTML = db.history.map(h => `<div>• ${h}</div>`).join('');
+        }
+
+        function saveJournal() { db.journal = document.getElementById('journal-input').value; save(); }
+        function save() { 
+            db.tts = document.getElementById('tts-toggle').checked;
+            localStorage.setItem('dani_v7_final', JSON.stringify(db)); 
+        }
+        function setTheme(t) { document.body.className = t + '-theme'; db.theme = t; save(); }
+        function clearHistory() { db.history = []; renderHistory(); save(); }
+
         window.onload = () => {
-            const saved = localStorage.getItem('dani_v5_session');
-            if(saved) { currentUser = JSON.parse(saved); launch(); }
+            const saved = localStorage.getItem('dani_v7_final');
+            if(saved) { db = JSON.parse(saved); document.getElementById('auth-gate').style.display = 'none'; launch(); }
         }
     </script>
 </body>
