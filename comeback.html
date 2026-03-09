@@ -3,28 +3,30 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Primis | System Reboot</title>
+<title>Primis | System Online</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
-:root {
-    --bg: #000;
-    --accent: #00f2ff;
-    --glass: rgba(255,255,255,0.04);
-    --border: rgba(255,255,255,0.1);
-    --dim: #888;
+:root{
+    --bg:#000;
+    --accent:#00f2ff;
+    --glass:rgba(255,255,255,0.04);
+    --border:rgba(255,255,255,0.1);
+    --dim:#888;
 }
 
 *{margin:0;padding:0;box-sizing:border-box}
+
 body{
-    background: var(--bg);
+    background:var(--bg);
     color:#fff;
     font-family:'Inter',sans-serif;
     overflow-x:hidden;
 }
 
 /* NAV */
+
 nav{
     display:flex;
     justify-content:space-between;
@@ -36,6 +38,7 @@ nav{
     backdrop-filter:blur(20px);
     border-bottom:1px solid var(--border);
 }
+
 .logo{
     letter-spacing:5px;
     color:var(--accent);
@@ -43,6 +46,7 @@ nav{
 }
 
 /* HERO */
+
 .hero{
     height:100vh;
     display:flex;
@@ -53,18 +57,21 @@ nav{
     background:radial-gradient(circle at center,#001a2e 0%,#000 70%);
     padding:20px;
 }
+
 .hero h1{
     font-size:clamp(3rem,8vw,6rem);
     font-weight:200;
     letter-spacing:-3px;
 }
+
 .hero p{
     margin-top:20px;
-    max-width:600px;
+    max-width:650px;
     color:var(--dim);
 }
 
-/* STATUS CARD */
+/* STATUS */
+
 .status-card{
     margin-top:40px;
     background:var(--glass);
@@ -82,27 +89,32 @@ nav{
     border-bottom:1px solid var(--border);
     font-size:0.9rem;
 }
+
 .status-line:last-child{
     border:none;
 }
-.online{ color:var(--accent); }
-.maintenance{ color:#ff5c5c; }
 
-/* COUNTDOWN */
-.countdown{
+.online{color:var(--accent);}
+.maintenance{color:#ff5c5c;}
+
+/* SYSTEM STATUS */
+
+.system-status{
     margin-top:40px;
     font-family:'Fira Code',monospace;
-    font-size:2rem;
+    font-size:1.5rem;
     color:var(--accent);
     text-shadow:0 0 20px var(--accent);
 }
 
 /* EMAIL */
+
 .waitlist{
     margin-top:40px;
     display:flex;
     gap:10px;
 }
+
 .waitlist input{
     padding:15px;
     background:transparent;
@@ -111,6 +123,7 @@ nav{
     color:#fff;
     flex:1;
 }
+
 .waitlist button{
     padding:15px 30px;
     background:var(--accent);
@@ -123,6 +136,7 @@ nav{
 }
 
 /* FOOTER */
+
 footer{
     text-align:center;
     padding:40px;
@@ -131,89 +145,80 @@ footer{
 }
 </style>
 </head>
+
 <body>
 
 <nav>
-    <div class="logo">PRIMIS</div>
-    <div style="font-size:0.8rem;color:var(--dim);letter-spacing:2px;">
-        SYSTEM REBOOT
-    </div>
+<div class="logo">PRIMIS</div>
+<div style="font-size:0.8rem;color:var(--dim);letter-spacing:2px;">
+SYSTEM ONLINE
+</div>
 </nav>
 
 <section class="hero">
-    <h1>Primis Is Rebuilding.</h1>
-    <p>
-        Primis was never meant to be just another chatbot. It was built as a multimodal intelligence lab... combining chat, video generation, image synthesis, voice systems, and advanced reasoning into one evolving platform.
 
-Recently, we discovered integration issues affecting key systems. Instead of applying temporary fixes, we chose to rebuild the core architecture properly.
+<h1>Primis Is Back.</h1>
 
-This is not a shutdown.
-It’s a structural upgrade.
+<p>
+Primis was built as a multimodal intelligence lab combining chat, image generation,
+video creation, voice systems, and advanced reasoning into one evolving platform.
 
-We are optimizing stability, improving API routing, enhancing persona agents, and strengthening deep thinking capabilities to ensure faster, smarter, and more reliable performance.
+After a full system rebuild and architecture upgrade, the core intelligence engine
+is now stable and operational again.
 
-Primis will return stronger, refined, stable, and elevated.
-    </p>
+Most systems are fully restored and running with improved stability, faster
+responses, and stronger reasoning capabilities.
 
-    <div class="status-card">
-        <div class="status-line">
-            <span>Chat Engine</span>
-            <span class="maintenance">Reconfiguring</span>
-        </div>
-        <div class="status-line">
-            <span>Video Generation</span>
-            <span class="maintenance">API Syncing</span>
-        </div>
-        <div class="status-line">
-            <span>Image Generation</span>
-            <span class="maintenance">Model Upgrade</span>
-        </div>
-        <div class="status-line">
-            <span>Voice Module</span>
-            <span class="online">Optimized</span>
-        </div>
-    </div>
+A few modules are still receiving upgrades while the platform continues running.
+Video generation and vision analysis are currently being optimized and will return
+shortly.
 
-    <div class="countdown" id="countdown">
-        Launching Soon...
-    </div>
+Primis is now online and continuing to evolve.
+</p>
 
-    <div class="waitlist">
-        <input type="email" placeholder="Enter your email for early access">
-        <button>Notify Me</button>
-    </div>
+<div class="status-card">
+
+<div class="status-line">
+<span>Chat Engine</span>
+<span class="online">Online</span>
+</div>
+
+<div class="status-line">
+<span>Image Generation</span>
+<span class="online">Online</span>
+</div>
+
+<div class="status-line">
+<span>Voice Module</span>
+<span class="online">Online</span>
+</div>
+
+<div class="status-line">
+<span>Video Generation</span>
+<span class="maintenance">Updating</span>
+</div>
+
+<div class="status-line">
+<span>Vision Analysis</span>
+<span class="maintenance">Updating</span>
+</div>
+
+</div>
+
+<div class="system-status">
+System Operational
+</div>
+
+<div class="waitlist">
+<input type="email" placeholder="Enter your email for updates">
+<button>Notify Me</button>
+</div>
+
 </section>
 
-
 <footer>
-    © 2026 Primis Research Lab — Damini Codesphere
+© 2026 Primis Research Lab — Damini Codesphere
 </footer>
-
-<script>
-// Optional Fake Countdown (7 days)
-let launchDate = new Date();
-launchDate.setDate(launchDate.getDate() + 7);
-
-function updateCountdown(){
-    let now = new Date();
-    let diff = launchDate - now;
-
-    if(diff <= 0){
-        document.getElementById("countdown").innerHTML = "System Online.";
-        return;
-    }
-
-    let days = Math.floor(diff / (1000*60*60*24));
-    let hours = Math.floor((diff / (1000*60*60)) % 24);
-    let mins = Math.floor((diff / (1000*60)) % 60);
-    let secs = Math.floor((diff / 1000) % 60);
-
-    document.getElementById("countdown").innerHTML =
-        `${days}d ${hours}h ${mins}m ${secs}s`;
-}
-
-setInterval(updateCountdown,1000);
-</script>
 
 </body>
 </html>
